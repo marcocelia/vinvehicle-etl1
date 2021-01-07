@@ -37,7 +37,6 @@ if __name__ == '__main__':
         auto_offset_reset='earliest'
     )
     prod = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=lambda x: json.dumps(x).encode('utf-8'))
-    futures = []
     count = 1
     for msg in consumer:
         print(f"retrieved message {count} from topic {topic}")
@@ -52,10 +51,5 @@ if __name__ == '__main__':
         }
         print(f"processed message {count}, sending to batch and realtime topics")
         count = count + 1
-        futures.append(prod.send('batch', dict_msg))
-        futures.append(prod.send('realtime', realtime_msg))
-
-    for future in futures:
-        future.get(timeout=60)
-
-    print(f"Successfully sent {len(futures)} row")
+        prod.send('batch', dict_msg)
+        prod.send('realtime', realtime_msg)
