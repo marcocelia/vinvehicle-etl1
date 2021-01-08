@@ -42,6 +42,7 @@ if __name__ == '__main__':
         print(f"retrieved message {count} from topic {topic}")
         dict_msg = process_msg(msg.value)
         realtime_msg = {
+            "VinVehicle": dict_msg["VinVehicle"],
             "Position.lon": dict_msg["Position.lon"],
             "Position.lat": dict_msg["Position.lat"],
             "Position.altitude": dict_msg["Position.altitude"],
